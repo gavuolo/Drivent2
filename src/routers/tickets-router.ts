@@ -5,6 +5,7 @@ import { authenticateToken } from '@/middlewares';
 const ticketsRouter = Router()
 
 ticketsRouter.all('/*', authenticateToken)
-ticketsRouter.get('/types', ticketsController.getTickets)
+ticketsRouter.get('/types', ticketsController.getAllTicketType)
+ticketsRouter.post('/', ticketsController.postTicket)
 
 export  {ticketsRouter}
