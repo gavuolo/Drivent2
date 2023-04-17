@@ -4,22 +4,26 @@ import { BodyTicket } from "@/protocols";
 async function allTicketType() {
   return prisma.ticketType.findMany();
 }
-async function createTicket(body: BodyTicket, userId: number) {
-  const { ticketTypeId } = body;
+
+async function findEnrollmentById(userId: number){
   const enrollmentId = await prisma.enrollment.findUnique({
     where: { userId },
   });
-  console.log(enrollmentId.id)
-   await prisma.ticket.create({
+  return enrollmentId
+}
+
+async function createTicket(ticketTypeId: number, userId: number, enrollmentId: number) {
+   const data = await prisma.ticket.create({
      data: {
        ticketTypeId,
        status: "RESERVED",
-       enrollmentId: enrollmentId.id,
+       enrollmentId,
      },
    });
-  console.log(body);
+   return data
 }
 export default {
   allTicketType,
   createTicket,
+  findEnrollmentById,
 };

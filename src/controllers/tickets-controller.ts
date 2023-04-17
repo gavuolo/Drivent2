@@ -1,28 +1,40 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import ticketsService from "@/services/tickets-service";
 import { AuthenticatedRequest } from "@/middlewares";
 import { BodyTicket } from "@/protocols";
 
-async function getAllTicketType(req: AuthenticatedRequest, res: Response) {
+async function getAllTicketType(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const ticketTypes = await ticketsService.getTicketsTypes();
     return res.status(httpStatus.OK).send(ticketTypes);
   } catch (error) {
     console.log(error);
-    return res.sendStatus(httpStatus.NOT_FOUND);
+    next(error);
   }
 }
 
-async function postTicket(req: AuthenticatedRequest, res: Response) {
-  const body = req.body as BodyTicket;
+async function postTicket(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) {
+  const { ticketTypeId } = req.body as BodyTicket;
   const { userId } = req;
+  if (!ticketTypeId) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
   try {
-    await ticketsService.postTicket(body, userId);
-    res.send(body);
+    const data = await ticketsService.postTicket(ticketTypeId, userId);
+    console.log(data);
+    return res.status(httpStatus.CREATED).send(data);
   } catch (error) {
     console.log(error);
-    res.send("catch");
+    next(error);
   }
 }
 

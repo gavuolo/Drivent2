@@ -30,4 +30,4 @@ export type RequestError = {
 
 export type BodyTicket = {
   ticketTypeId: number
-}
+};
