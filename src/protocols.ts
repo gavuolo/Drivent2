@@ -31,3 +31,14 @@ export type RequestError = {
 export type BodyTicket = {
   ticketTypeId: number
 };
+
+export type bodyPayment = {
+    ticketId: number,
+    cardData: {
+      issuer: string,
+      number: number,
+      name: string,
+      expirationDate: Date,
+      cvv: number
+    }
+}

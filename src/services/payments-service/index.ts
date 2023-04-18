@@ -19,6 +19,10 @@ async function findPayments(ticketId: number, userId: number) {
   return payment;
 }
 
+async function createPayment(){
+
+}
+
 export default {
   findPayments,
 };
