@@ -7,6 +7,6 @@ const ticketsRouter = Router()
 ticketsRouter.all('/*', authenticateToken)
 ticketsRouter.get('/types', ticketsController.getAllTicketType)
 ticketsRouter.post('/', ticketsController.postTicket)
-ticketsRouter.get('/tickets', ticketsController.getTickets)
+ticketsRouter.get('/', ticketsController.getTickets)
 
 export  {ticketsRouter}
