@@ -26,8 +26,7 @@ async function getTickets(
   const { userId } = req;
   try {
     const tickets = await ticketsService.getTicketsByUser(userId);
-
-    return res.status(httpStatus.CREATED).send(tickets);
+    return res.status(httpStatus.OK).send(tickets);
   } catch (error) {
     next(error);
   }
@@ -46,9 +45,9 @@ async function postTicket(
   try {
 
     const data = await ticketsService.postTicket(ticketTypeId, userId);
-
-    return res.status(httpStatus.CREATED).send(data);
     
+    return res.status(httpStatus.CREATED).send(data);
+
   } catch (error) {
     next(error);
   }

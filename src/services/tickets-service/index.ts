@@ -7,22 +7,24 @@ async function getTicketsTypes() {
 }
 
 async function getTicketsByUser(userId: number) {
-  const tickets = await ticketsRepository.findTicketsByUser(userId);
-  // if(!tickets){
-  //   throw notFoundError();
-  // }
-  return tickets
-}
-
-async function postTicket(ticketTypeId: number, userId: number) {
   const enrollmentId = await ticketsRepository.findEnrollmentByUserId(userId);
   if (!enrollmentId) {
     throw notFoundError();
   }
-  const data = await ticketsRepository.createTicket(
-    ticketTypeId,
-    enrollmentId
-  );
+  const tickets = await ticketsRepository.findTicketsByEnrollment(enrollmentId.id);
+  if (!tickets) {
+    throw notFoundError();
+  }
+  return tickets;
+}
+
+async function postTicket(ticketTypeId: number, userId: number) {
+  const enrollmentId = await ticketsRepository.findEnrollmentByUserId(userId);
+  if(!enrollmentId){
+    throw notFoundError()
+  }
+  await ticketsRepository.createTicket(ticketTypeId, enrollmentId.id);
+  const data = await ticketsRepository.findTicketsByEnrollment(enrollmentId.id)
   return data;
 }
 
