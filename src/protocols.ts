@@ -32,13 +32,17 @@ export type BodyTicket = {
   ticketTypeId: number
 };
 
-export type bodyPayment = {
-    ticketId: number,
-    cardData: {
-      issuer: string,
-      number: number,
-      name: string,
-      expirationDate: Date,
-      cvv: number
-    }
+export type CardDataProtocols ={
+  issuer: string,
+  number: number,
+  name: string,
+  expirationDate: Date,
+  cvv: number
 }
+
+export type PaymentType = {
+  ticketId: number;
+  value: number;
+  cardIssuer: string;
+  cardLastDigits: string;
+};
