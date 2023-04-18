@@ -18,6 +18,21 @@ async function getAllTicketType(
   }
 }
 
+async function getTickets(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) {
+  const { userId } = req;
+  try {
+    const tickets = await ticketsService.getTicketsByUser(userId);
+
+    return res.status(httpStatus.CREATED).send(tickets);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function postTicket(
   req: AuthenticatedRequest,
   res: Response,
@@ -29,11 +44,12 @@ async function postTicket(
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
   try {
+
     const data = await ticketsService.postTicket(ticketTypeId, userId);
-    console.log(data);
+
     return res.status(httpStatus.CREATED).send(data);
+    
   } catch (error) {
-    console.log(error);
     next(error);
   }
 }
@@ -41,4 +57,5 @@ async function postTicket(
 export default {
   getAllTicketType,
   postTicket,
+  getTickets,
 };
