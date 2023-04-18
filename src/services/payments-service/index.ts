@@ -34,6 +34,8 @@ async function postPaymentService(ticketId: number, cardData: CardDataProtocols,
      cardIssuer: cardData.issuer,
      cardLastDigits: cardData.number.toString().slice(-4)
    }
+   //atualizar ticket
+   await ticketsRepository.updateTicket(ticketId)
    const response = await paymentsRepository.createPayment(data)
    console.log(response)
    return response
