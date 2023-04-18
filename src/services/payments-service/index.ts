@@ -8,7 +8,7 @@ async function findPayments(ticketId: number, userId: number) {
   if (!ticket) {
     throw notFoundError();
   }
-  if (ticket.Enrollment.userId != userId) {
+  if (ticket.Enrollment.userId !== userId) {
     throw unauthorizedError();
   }
   const payment = await paymentsRepository.findPaymentsByTicket(ticketId);
